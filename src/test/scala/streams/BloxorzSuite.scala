@@ -16,12 +16,13 @@ class BloxorzSuite extends FunSuite {
      * `startPos`. This can be used to verify if a certain list of moves
      * is a valid solution, i.e. leads to the goal.
      */
-    def solve(ls: List[Move]): Block =
-      ls.foldLeft(startBlock) { case (block, move) => move match {
-        case Left => block.left
-        case Right => block.right
-        case Up => block.up
-        case Down => block.down
+    def solve(ls: List[Move]): Block = {
+        ls.foldLeft(startBlock) { case (block, move) => move match {
+          case Left => block.left
+          case Right => block.right
+          case Up => block.up
+          case Down => block.down
+        }
       }
     }
   }
@@ -65,7 +66,6 @@ class BloxorzSuite extends FunSuite {
 
 	test("test for level 1") {
     new Level1 {
-	    println(this.goal)
       val b = solve(optsolution)
       assert(this.done(b))
     }
@@ -73,21 +73,31 @@ class BloxorzSuite extends FunSuite {
 
   test("test neighborsWithHistory startPos") {
     new Level1 {
-      val neighbors = neighborsWithHistory(new Block(startPos, startPos), Nil).take(5).toList
+      val neighbors = neighborsWithHistory(startBlock, Nil).take(5).toList
       assert(neighbors == List((Block(Pos(1,2),Pos(1,3)),List(Right)), (Block(Pos(2,1),Pos(3,1)),List(Down))))
     }
   }
 
   test("test newNeighborsOnly startPos") {
     new Level1 {
-      val newNeighbors = newNeighborsOnly(neighborsWithHistory(new Block(startPos, startPos), Nil), Set())
+      val newNeighbors = newNeighborsOnly(neighborsWithHistory(startBlock, Nil), Set())
       val t = newNeighbors.take(3).toList;
+      assert(startPos == Pos(1,1))
+    }
+  }
+
+    test("test from startPos") {
+    new Level1 {
+      val newNeighbors = from(neighborsWithHistory(startBlock, Nil), Set())
+      val t = newNeighbors.take(5).toList;
       assert(startPos == Pos(1,1))
     }
   }
 
 	test("optimal solution for level 1") {
     new Level1 {
+	    val s = solution
+      val b = solve(solution)
       assert(solve(solution) == Block(goal, goal))
     }
   }

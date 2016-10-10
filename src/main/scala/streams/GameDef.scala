@@ -86,7 +86,13 @@ trait GameDef {
    */
   def startBlock: Block = Block(startPos, startPos)
 
+  /**
+   * This function returns the block at the start position of
+   * the game.
+   */
+  def endBlock: Block = Block(goal, goal)
 
+  
   /**
    * A block is represented by the position of the two cubes that
    * it consists of. We make sure that `b1` is lexicographically
@@ -154,6 +160,7 @@ trait GameDef {
     /**
      * Returns `true` if the block is entirely inside the terrain.
      */
-    def isLegal: Boolean = terrain(this.b1) && terrain(this.b2)
+    def isLegal: Boolean = 
+      terrain(this.b1) && terrain(this.b2) 
   }
 }
